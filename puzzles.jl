@@ -31,8 +31,6 @@ function getpuzzle(puzname::String)
 
     return copy(get(namedict, puzname, 0))
 end
-    
-
 
 function testpuzzle8sums()
     """Test all predefined 8-puzzles for a sum of 36."""
