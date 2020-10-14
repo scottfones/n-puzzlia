@@ -7,13 +7,13 @@ function directindex(direction)
     return CartesianIndex(dirdict[direction])
 end
 
-function swaptile!(board, t1, t2)
+function swaptile!(b, t1, t2)
     """Swap the labels on the board for
     elements at index t1 and t2.
     """
-    tmp = board[t1];
-    board[t1] = board[t2];
-    board[t2] = tmp;
+    tmp = b[t1];
+    b[t1] = b[t2];
+    b[t2] = tmp;
 end
 
 function possibleactions(board)
@@ -33,24 +33,8 @@ function possibleactions(board)
             push!(possacts, act);
         end
     end
-    
+
     return possacts
-end
-
-
-function tee()
-    newboards = Matrix[];
-    for (key, value) in pairs(orthdict)
-        modindex = zeroindex + CartesianIndex(value);
-
-        if checkbounds(Bool, board, modindex)
-            newboard = copy(board);
-            swaptile!(newboard, zeroindex, modindex);
-            push!(newboards, newboard);
-        end
-    end
-
-    return newboards
 end
 
 function result(action, board)
@@ -61,5 +45,22 @@ function result(action, board)
     of the piece to be moved, and direction is 
     one of "UP", "DOWN", "LEFT", "RIGHT"
     """
+    newboard = copy(board);
+    index1 = action[1];
+    index2 = index1 + directindex(action[2]);
+    swaptile!(newboard, index1, index2)
 
+    return newboard
+end
+
+function expand(board)
+    """Return all possible next-step states."""
+    states = [];
+    possacts = possibleactions(board);
+
+    for act in possacts
+        push!(states, result(act, board));
+    end
+
+    return states
 end
