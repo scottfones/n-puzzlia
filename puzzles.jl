@@ -9,7 +9,33 @@ puzzle6 = Matrix{Int8}([8 7 6; 5 4 3; 2 1 0]);
 allpuzzle8s = Array{Matrix{Int8}, 1}([puzzle0, puzzle1, puzzle2, puzzle3,
                                       puzzle4, puzzle5, puzzle6]);
 
+function getpuzzle(puznum::Int8)
+    """Return 8-puzzle based on number id."""
+    numdict = Dict(
+        0 => puzzle0, 1 => puzzle1, 2 => puzzle2, 
+        3 => puzzle3, 4 => puzzle4,
+        5 => puzzle5, 6 => puzzle6
+    );
+
+    return copy(get(numdict, puznum, 0))
+end
+    
+function getpuzzle(puzname::String)
+    """Return 8-puzzle based on name id."""
+    namedict = Dict(
+        "puzzle-0" => puzzle0, "puzzle-1" => puzzle1, 
+        "puzzle-2" => puzzle2, "puzzle-3" => puzzle3, 
+        "puzzle-4" => puzzle4, "puzzle-5" => puzzle5, 
+        "puzzle-6" => puzzle6
+    );
+
+    return copy(get(namedict, puzname, 0))
+end
+    
+
+
 function testpuzzle8sums()
+    """Test all predefined 8-puzzles for a sum of 36."""
     for (i, puzzle) in enumerate(allpuzzle8s)
         println("puzzle-$(i-1): sum(puzzle) == sum(1:8):  $(sum(puzzle) == sum(1:8))");
     end
