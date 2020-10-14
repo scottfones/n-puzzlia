@@ -1,5 +1,6 @@
-function getpuzzle(puznum::Int8)
+function getpuzzle8(puznum::Integer)
     """Return 8-puzzle based on number id."""
+    puzzleg = Matrix{Int8}([0 1 2; 3 4 5; 6 7 8]);
     puzzle0 = Matrix{Int8}([3 1 2; 7 0 5; 4 6 8]);
     puzzle1 = Matrix{Int8}([7 2 4; 5 0 6; 8 3 1]);
     puzzle2 = Matrix{Int8}([6 7 3; 1 5 2; 4 0 8]);
@@ -9,7 +10,8 @@ function getpuzzle(puznum::Int8)
     puzzle6 = Matrix{Int8}([8 7 6; 5 4 3; 2 1 0]);
     
     numdict = Dict(
-        0 => puzzle0, 1 => puzzle1, 2 => puzzle2, 
+        -1 => puzzleg, 0 => puzzle0, 
+        1 => puzzle1, 2 => puzzle2, 
         3 => puzzle3, 4 => puzzle4,
         5 => puzzle5, 6 => puzzle6
     );
@@ -17,13 +19,13 @@ function getpuzzle(puznum::Int8)
     return copy(get(numdict, puznum, -1))
 end
     
-function getpuzzle(puzname::String)
+function getpuzzle8(puzname::String)
     """Return 8-puzzle based on name id."""
     namedict = Dict(
-        "puzzle-0" => 0, "puzzle-1" => 1, 
-        "puzzle-2" => 2, "puzzle-3" => 3, 
-        "puzzle-4" => 4, "puzzle-5" => 5, 
-        "puzzle-6" => 6
+        "goal" => -1, "puzzle-0" => 0, 
+        "puzzle-1" => 1, "puzzle-2" => 2, 
+        "puzzle-3" => 3, "puzzle-4" => 4, 
+        "puzzle-5" => 5, "puzzle-6" => 6
     );
 
     numid = get(namedict, puzname, -1);
