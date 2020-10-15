@@ -1,6 +1,6 @@
 struct TreeNode
     """Node for search trees"""
-    action::Tuple
+    action::Union{Tuple, Nothing}
     parent::Union{TreeNode, Nothing}
     pathcost::Integer
     state::Matrix
@@ -19,10 +19,10 @@ function addnode(action, parent, state)
     return newnode
 end
 
-function newtree(action, state)
+function newtree(state)
     """Create initial node for new tree."""
     newnode = TreeNode(
-        action,
+        nothing,
         nothing,
         0,
         state
