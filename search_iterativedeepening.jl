@@ -60,7 +60,7 @@ function iterativedfs(goal, puzzle; initdepth=1, limit=100, step=1, prnt="all")
             else
                 printsolve(solnode)
             end
-            return nothing
+            return solnode
         end
     end
     
