@@ -4,11 +4,11 @@ include("searchtree.jl")
 function dlsexpand(node, puzzle)
     """Expand a given puzzle into next-step child nodes."""
     actions = possibleactions(puzzle);
+    res = expand(puzzle)
 
     childrn = []
-    for act in actions
-        res = result(act, puzzle);
-        newnode = addnode(act, node, res);
+    for (a, r) in zip(actions, res)
+        newnode = addnode(a, node, r);
         push!(childrn, newnode);
     end
 
