@@ -6,6 +6,15 @@ struct TreeNode
     state::Matrix
 end
 
+function Base.copy(node::TreeNode)
+    TreeNode(
+        node.action,
+        node.parent,
+        node.pathcost,
+        node.state
+    );
+end
+
 function addnode(action, parent, state)
     """Create a new child node wrt the parent."""
     cost = parent.pathcost + 1;
@@ -34,9 +43,9 @@ end
 function iscycle(node, pnum)
     """Check pnum parents for identical state."""
     count = 0;
-    prnt = copy(node);
+    prnt = node;
 
-    while (count < pnum) && !isnothing(node.parent)
+    while (count < pnum) && !isnothing(prnt.parent)
         count+=1;
         prnt = prnt.parent;
 
