@@ -56,3 +56,23 @@ function iscycle(node, pnum)
 
     return false
 end
+
+function printactions(solvenode)
+    """Print actions from solution to initial state."""
+    while !isnothing(solvenode)
+        println("Step $(solvenode.pathcost): Action: $(solvenode.action)");
+        solvenode = solvenode.parent;
+    end
+end
+
+function printsolve(solvenode)
+    """Print actions and state from solution to initial state."""
+    while !isnothing(solvenode)
+        println("Step $(solvenode.pathcost):")
+        println("\t$(solvenode.state[1,:])") 
+        println("\t$(solvenode.state[2,:])")
+        println("\t$(solvenode.state[3,:])")
+        println("\tAction: $(solvenode.action)");
+        solvenode = solvenode.parent;
+    end
+end
