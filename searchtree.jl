@@ -30,3 +30,20 @@ function newtree(state)
 
     return newnode
 end
+
+function iscycle(node, pnum)
+    """Check pnum parents for identical state."""
+    count = 0;
+    prnt = copy(node);
+
+    while (count < pnum) && !isnothing(node.parent)
+        count+=1;
+        prnt = prnt.parent;
+
+        if node.state == prnt.state
+            return true
+        end
+    end
+
+    return false
+end
