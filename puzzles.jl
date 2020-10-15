@@ -29,7 +29,7 @@ function getpuzzle8(puzname::String)
     );
 
     numid = get(namedict, puzname, -1);
-    return getpuzzle(numid)
+    return getpuzzle8(numid)
 end
 
 function testpuzzle8sums()
