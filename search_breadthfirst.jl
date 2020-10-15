@@ -28,7 +28,7 @@ function breadthfirstsearch(goal, puzzle)
                 return solvnode
             end
 
-            if isnothing(findfirst(isequal(cstate), reached))
+            if !in(cstate, reached)
                 push!(reached, cstate);
                 cnode = addnode(caction, node, cstate);
                 push!(frontier, cnode)
