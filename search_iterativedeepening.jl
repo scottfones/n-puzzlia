@@ -45,6 +45,32 @@ function depthlimitedsearch(depth, goal, puzzle)
     return solve
 end
 
+function iterativedfs(goal, puzzle; initdepth=1, limit=100, step=1, prnt="all")
+    searchrange = initdepth:step:limit;
+    for d in searchrange
+        solnode = depthlimitedsearch(d, goal, puzzle)
+
+        if !isnothing(solnode)
+            if prnt == "actions"
+                printactions(solnode)
+            else
+                printsolve(solnode)
+            end
+            return nothing
+        end
+    end
+    
+    println("No solutions found within depth limit. (limit=$limit)")
+    return nothing    
+end
+
+function printactions(solvenode)
+    while !isnothing(solvenode)
+        println("Step $(solvenode.pathcost): Action: $(solvenode.action)");
+        solvenode = solvenode.parent;
+    end
+end
+
 function printsolve(solvenode)
     while !isnothing(solvenode)
         println("Step $(solvenode.pathcost):")
