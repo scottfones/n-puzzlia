@@ -23,7 +23,9 @@ end
 
 function heurmisplaced(node, goal)
     g = node.pathcost;
-    h = length(intersect(node.state, goal));
+
+    shareels = sum(goal .== node.state);
+    h = length(node.state) - shareels;
 
     return g+h
 end
