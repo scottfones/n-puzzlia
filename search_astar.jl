@@ -1,6 +1,4 @@
 using DataStructures;
-include("specfuncs.jl")
-include("searchtree.jl")
 
 function heurmanhattan(goal, node)
     g = node.pathcost;

@@ -1,6 +1,3 @@
-include("specfuncs.jl")
-include("searchtree.jl")
-
 function breadthfirstsearch(goal, puzzle)
     """Perform breadth first search.
 

@@ -1,6 +1,3 @@
-include("specfuncs.jl")
-include("searchtree.jl")
-
 function dlsexpand(node, puzzle)
     """Expand a given puzzle into next-step child nodes."""
     actions = possibleactions(puzzle);
