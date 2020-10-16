@@ -37,7 +37,7 @@ function heurmanhattanconflict(goal, node)
         wrongcol = sidelen - corcol;
 
         # Score Penalization
-        f += 2*wrongrow + 2*wrongcol
+        f += 2*wrongrow + 2*wrongcol;
     end
 
     return f
