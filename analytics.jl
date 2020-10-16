@@ -27,61 +27,61 @@ p2manhattan = @benchmark astarsearch($goal, $heurmanhattan, $puzzle2);
 Profile.init(delay=.000001)
 
 @profile astarsearch(goal, heurmanhattan, puzzle2);
-open("astar2.txt", "w") do s
+open("profiles/astar2.txt", "w") do s
     Profile.print(IOContext(s), format=:flat)
 end
 Profile.clear()
 
 @profile astarsearch(goal, heurmanhattan, puzzle3);
-open("astar3.txt", "w") do s
+open("profiles/astar3.txt", "w") do s
     Profile.print(IOContext(s), format=:flat)
 end
 Profile.clear()
 
 @profile astarsearch(goal, heurmanhattan, puzzle4);
-open("astar4.txt", "w") do s
+open("profiles/astar4.txt", "w") do s
     Profile.print(IOContext(s), format=:flat)
 end
 Profile.clear()
 
 @profile astarsearch(goal, heurmanhattan, puzzle5);
-open("astar5.txt", "w") do s
+open("profiles/profiles/astar5.txt", "w") do s
     Profile.print(IOContext(s), format=:flat)
 end
 Profile.clear()
 
 @profile astarsearch(goal, heurmanhattan, puzzle6);
-open("astar6.txt", "w") do s
+open("profiles/astar6.txt", "w") do s
     Profile.print(IOContext(s), format=:flat)
 end
 Profile.clear()
 
 @profile breadthfirstsearch(goal, puzzle2);
-open("breadth2.txt", "w") do s
+open("profiles/breadth2.txt", "w") do s
     Profile.print(IOContext(s), format=:flat)
 end
 Profile.clear()
 
 @profile breadthfirstsearch(goal, puzzle3);
-open("breadth3.txt", "w") do s
+open("profiles/breadth3.txt", "w") do s
     Profile.print(IOContext(s), format=:flat)
 end
 Profile.clear()
 
 @profile breadthfirstsearch(goal, puzzle4);
-open("breadth4.txt", "w") do s
+open("profiles/breadth4.txt", "w") do s
     Profile.print(IOContext(s), format=:flat)
 end
 Profile.clear()
 
 @profile breadthfirstsearch(goal, puzzle5);
-open("breadth5.txt", "w") do s
+open("profiles/breadth5.txt", "w") do s
     Profile.print(IOContext(s), format=:flat)
 end
 Profile.clear()
 
 @profile breadthfirstsearch(goal, puzzle6);
-open("breadth6.txt", "w") do s
+open("profiles/breadth6.txt", "w") do s
     Profile.print(IOContext(s), format=:flat)
 end
 Profile.clear()
