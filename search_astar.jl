@@ -2,7 +2,7 @@ using DataStructures;
 include("specfuncs.jl")
 include("searchtree.jl")
 
-function heurmanhattan(node, goal)
+function heurmanhattan(goal, node)
     g = node.pathcost;
     m,n = size(node.state);
 
@@ -21,9 +21,10 @@ function heurmanhattan(node, goal)
 end
 
 
-function heurmisplaced(node, goal)
+function heurmisplaced(goal, node)
     g = node.pathcost;
 
+    # Generate truth table and take sum for shared elements
     shareels = sum(goal .== node.state);
     h = length(node.state) - shareels;
 
@@ -52,8 +53,8 @@ function astarsearch(goal, heur, puzzle)
                 continue;
             end
 
-            cnode = addnode(a, node, s)
-            score = heur(cnode, goal);
+            cnode = addnode(a, node, s);
+            score = heur(goal, cnode);
 
             if s == goal
                 printsolve(cnode)
