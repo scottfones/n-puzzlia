@@ -2,6 +2,7 @@ include("puzzles.jl");
 include("search_astar.jl");
 include("search_breadthfirst.jl");
 include("search_iterativedeepening.jl")
+include("searchtree.jl");
 include("specfuncs.jl");
 
 using BenchmarkTools;
@@ -21,6 +22,11 @@ astar = @benchmark astarsearch(goal, heurmanhattan, puzzle0)
 
 p2misplaced = @benchmark astarsearch(goal, heurmisplaced, puzzle2);
 p2manhattan = @benchmark astarsearch(goal, heurmanhattan, puzzle2);
+
+Profile.init(delay=.0000001)
+
+
+@profile astarsearch(goal, heurmanhattan, puzzle2);
 
 @show idfs;
 @show bfs;
