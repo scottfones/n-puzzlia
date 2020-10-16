@@ -6,13 +6,9 @@ struct TreeNode
     state::Matrix
 end
 
-function Base.copy(node::TreeNode)
-    TreeNode(
-        node.action,
-        node.parent,
-        node.pathcost,
-        node.state
-    );
+import Base.==
+function ==(x::TreeNode,y::TreeNode)
+    x.state==y.state
 end
 
 function addnode(action, parent, state)
