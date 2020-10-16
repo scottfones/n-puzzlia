@@ -18,6 +18,31 @@ function heurmanhattan(goal, node)
     return g + h    
 end
 
+function heurmanhattanconflict(goal, node)
+    f = heurmanhattan(goal, node);
+
+    s = node.state;
+    sidelen = size(goal)[1];
+    for i in 1:sidelen
+        # Elements in the right row or column
+        inrow = intersect(goal[i,:], s[i,:]);
+        incol = intersect(goal[:,i], s[:,1]);
+
+        # Elements in the correct place
+        corrow = sum(goal[i,:] .== s[i,:]);
+        corcol = sum(goal[i,:] .== s[i,:]);
+
+        # Elements in the incorrect place
+        wrongrow = sidelen - corrow;
+        wrongcol = sidelen - corcol;
+
+        # Score Penalization
+        f += 2*wrongrow + 2*wrongcol
+    end
+
+    return f
+
+end
 
 function heurmisplaced(goal, node)
     g = node.pathcost;
