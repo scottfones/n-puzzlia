@@ -7,8 +7,7 @@ function heurmanhattan(goal, node)
     h = 0;
     for row in 1:m
         for col in 1:n
-            val = 3*(row-1)+col;
-            cord = findfirst(isequal(val-1), node.state);
+            cordnode = findfirst(isequal(goal[row,col]), node.state);
             hm = abs(cord[1] - row);
             hn = abs(cord[2] - col);
             h += hm + hn;
@@ -47,7 +46,7 @@ function heurmanhattanconflict(goal, node)
             f += rowpen;
         end
 
-        # Row Check
+        # Column Check
         incol = intersect(goal[:,i], s[:,i]);
 
         if length(incol) > 1
