@@ -1,12 +1,12 @@
 function dlsexpand(node, puzzle)
     """Expand a given puzzle into next-step child nodes."""
-    actions = possibleactions(puzzle);
-    res = expand(puzzle)
+    @timeit to "possibleactions" actions = possibleactions(puzzle);
+    @timeit to "expand" res = expand(puzzle)
 
     childrn = []
     for (a, r) in zip(actions, res)
-        newnode = addnode(a, node, r);
-        push!(childrn, newnode);
+        @timeit to "create node" newnode = addnode(a, node, r);
+        @timeit to "push" push!(childrn, newnode);
     end
 
     return childrn
@@ -17,11 +17,12 @@ function depthlimitedsearch(depth, goal, puzzle)
 
     Returns solution or nothing.
     """
+    reset_timer!(to::TimerOutput)
+
     frontier = [newtree(puzzle)];
-    solve = nothing;
 
     while !isempty(frontier)
-        node = pop!(frontier);
+        @timeit to "pop" node = pop!(frontier);
 
         if node.state == goal
             return node
@@ -34,12 +35,12 @@ function depthlimitedsearch(depth, goal, puzzle)
         elseif !iscycle(node, 3)
             childrn = dlsexpand(node, node.state);
             for chld in childrn
-                push!(frontier, chld);
+                @timeit to "push" push!(frontier, chld);
             end
         end
     end
 
-    return solve
+    return nothing
 end
 
 function iterativedfs(goal, puzzle; initdepth=1, limit=100, step=1, prnt="all")
@@ -49,13 +50,13 @@ function iterativedfs(goal, puzzle; initdepth=1, limit=100, step=1, prnt="all")
     """
     searchrange = initdepth:step:limit;
     for d in searchrange
-        solnode = depthlimitedsearch(d, goal, puzzle)
+        @timeit to "depth limited search" solnode = depthlimitedsearch(d, goal, puzzle)
 
         if !isnothing(solnode)
             if prnt == "actions"
-                printactions(solnode)
+                printactions(solnode[2])
             else
-                printsolve(solnode)
+                printsolve(solnode[2])
             end
             return solnode
         end

@@ -24,24 +24,40 @@ function heurmanhattanconflict(goal, node)
     s = node.state;
     sidelen = size(goal)[1];
     for i in 1:sidelen
-        # Elements in the right row or column
+
+        # Row Check
         inrow = intersect(goal[i,:], s[i,:]);
-        incol = intersect(goal[:,i], s[:,1]);
 
-        # Elements in the correct place
-        corrow = sum(goal[i,:] .== s[i,:]);
-        corcol = sum(goal[i,:] .== s[i,:]);
+        if length(inrow) > 1
+            roword = [];
+            for el in inrow
+                rn = findfirst(isequal(el), s)[2]
+                push!(roword, rn)
+            end
+            # @show s
+            # @show roword
+            if !issorted(roword)
+                f += 2;
+            end
+        end
 
-        # Elements in the incorrect place
-        wrongrow = sidelen - corrow;
-        wrongcol = sidelen - corcol;
+        # Row Check
+        incol = intersect(goal[:,i], s[:,i]);
 
-        # Score Penalization
-        f += 2*wrongrow + 2*wrongcol;
+        if length(incol) > 1
+            colord = [];
+            for el in incol
+                rm = findfirst(isequal(el), s)[1]
+                push!(colord, rm)
+            end
+            
+            if !issorted(colord)
+                f += 2;
+            end
+        end
     end
 
     return f
-
 end
 
 function heurmisplaced(goal, node)
@@ -59,25 +75,28 @@ function astarsearch(goal, heur, puzzle)
 
     Return solution or nothing.
     """
+    # Reset timer
+    reset_timer!(to::TimerOutput)
+
     node = newtree(puzzle);
     frontier = PriorityQueue{TreeNode, Integer}()
     frontier[node] = 0;
     basecamp = [];
     
     while !isempty(frontier)
-        node = dequeue!(frontier);
-        push!(basecamp, node.state);
+        @timeit to "dequeue" node = dequeue!(frontier);
+        @timeit to "push" push!(basecamp, node.state);
 
-        acts = possibleactions(node.state);
-        states = expand(node.state);
+        @timeit to "possibleactions" acts = possibleactions(node.state);
+        @timeit to "expand" states = expand(node.state);
 
         for (a, s) in zip(acts, states)
             if in(basecamp, s)
                 continue;
             end
 
-            cnode = addnode(a, node, s);
-            score = heur(goal, cnode);
+            @timeit to "create node" cnode = addnode(a, node, s);
+            @timeit to "heuristic score" score = heur(goal, cnode);
 
             if s == goal
                 printsolve(cnode)
@@ -92,4 +111,7 @@ function astarsearch(goal, heur, puzzle)
             end
         end
     end
+
+    println("No solutions found.")
+    return nothing
 end

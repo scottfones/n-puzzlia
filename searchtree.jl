@@ -71,4 +71,5 @@ function printsolve(solvenode)
         println("\tAction: $(solvenode.action)");
         solvenode = solvenode.parent;
     end
+    print(to)
 end

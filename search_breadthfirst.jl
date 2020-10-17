@@ -3,6 +3,9 @@ function breadthfirstsearch(goal, puzzle)
 
     Return solution or nothing.
     """
+    # Reset timer
+    reset_timer!(to::TimerOutput)
+    
     node = newtree(puzzle);
 
     if node.state == goal
@@ -13,10 +16,10 @@ function breadthfirstsearch(goal, puzzle)
     reached = [node.state];
 
     while !isempty(frontier)
-        node = popfirst!(frontier);
+        @timeit to "pop" node = popfirst!(frontier);
 
-        states = expand(node.state);
-        acts = possibleactions(node.state);
+        @timeit to "expand" states = expand(node.state);
+        @timeit to "possibleactions" acts = possibleactions(node.state);
 
         for (cstate, caction) in zip(states, acts)
             if cstate == goal
@@ -26,9 +29,9 @@ function breadthfirstsearch(goal, puzzle)
             end
 
             if !in(cstate, reached)
-                push!(reached, cstate);
-                cnode = addnode(caction, node, cstate);
-                push!(frontier, cnode)
+                @timeit to "push" push!(reached, cstate);
+                @timeit to "create node" cnode = addnode(caction, node, cstate);
+                @timeit to "push" push!(frontier, cnode)
             end
         end
     end
