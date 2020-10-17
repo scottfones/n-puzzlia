@@ -7,6 +7,9 @@ function heurmanhattan(goal, node)
     h = 0;
     for row in 1:m
         for col in 1:n
+            if goal[row,col] == 0
+                continue;
+            end
             cord = findfirst(isequal(goal[row,col]), node.state);
             hm = abs(cord[1] - row);
             hn = abs(cord[2] - col);
@@ -26,6 +29,9 @@ function heurmanhattanconflict(goal, node)
 
         # Row Check
         inrow = intersect(goal[i,:], s[i,:]);
+        if 0 in inrow
+            setdiff!(inrow, [0]);
+        end
 
         if length(inrow) > 1
             roword = [];
@@ -48,6 +54,9 @@ function heurmanhattanconflict(goal, node)
 
         # Column Check
         incol = intersect(goal[:,i], s[:,i]);
+        if 0 in incol
+            setdiff!(incol, [0]);
+        end
 
         if length(incol) > 1
             colord = [];
