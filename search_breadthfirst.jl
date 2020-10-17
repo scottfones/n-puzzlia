@@ -1,3 +1,12 @@
+"""
+    breadthfirstsearch(goal, puzzle)
+
+    Perform a breadth-first search of a tree structure initiated 
+    with `puzzle`. Search proceeds  until either the `goal` 
+    state is found, or no solution is possible.
+    
+    Return: TreeNode containing the goal state or nothing.
+"""
 function breadthfirstsearch(goal, puzzle)
     """Perform breadth first search.
 
@@ -5,7 +14,7 @@ function breadthfirstsearch(goal, puzzle)
     """
     # Reset timer
     reset_timer!(to::TimerOutput)
-    
+
     node = newtree(puzzle);
 
     if node.state == goal

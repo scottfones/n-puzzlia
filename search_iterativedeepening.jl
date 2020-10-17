@@ -1,22 +1,13 @@
-function dlsexpand(node, puzzle)
-    """Expand a given puzzle into next-step child nodes."""
-    @timeit to "possibleactions" actions = possibleactions(puzzle);
-    @timeit to "expand" res = expand(puzzle)
+"""
+    depthlimitedsearch(depth, goal, puzzle)
 
-    childrn = []
-    for (a, r) in zip(actions, res)
-        @timeit to "create node" newnode = addnode(a, node, r);
-        @timeit to "push" push!(childrn, newnode);
-    end
-
-    return childrn
-end
-
+    Perform a depth-limited search of a tree structure initiated 
+    with `puzzle`. Search proceeds until either the `goal` 
+    state is found, or no solution is possible.
+    
+    Return: TreeNode containing the goal state or nothing.
+"""
 function depthlimitedsearch(depth, goal, puzzle)
-    """Perform depth first search up to the input depth.
-
-    Returns solution or nothing.
-    """
     frontier = [newtree(puzzle)];
 
     while !isempty(frontier)
@@ -31,9 +22,12 @@ function depthlimitedsearch(depth, goal, puzzle)
             continue;
         
         elseif !iscycle(node, 3)
-            childrn = dlsexpand(node, node.state);
-            for chld in childrn
-                @timeit to "push" push!(frontier, chld);
+            @timeit to "possibleactions" acts = possibleactions(node.state);
+            @timeit to "expand" res = expand(node.state);
+
+            for (a, r) in zip(acts, res)
+                @timeit to "create node" newnode = addnode(a, node, r);
+                @timeit to "push" push!(frontier, newnode);
             end
         end
     end
@@ -41,22 +35,24 @@ function depthlimitedsearch(depth, goal, puzzle)
     return nothing
 end
 
-function iterativedfs(goal, puzzle; initdepth=1, limit=100, step=1, prnt="all")
-    """Perform iterative depth first search.
 
-    Optionally takes iteration and output options.
-    """
+"""
+    iterativedfs(goal, puzzle; initdepth=1, limit=100, step=1)
+
+    Perform a depth-limited search of a tree structure initiated 
+    with `puzzle`. Search proceeds until either the `goal` 
+    state is found, or no solution is possible.
+    
+    Return: TreeNode containing the goal state or nothing.
+"""
+function iterativedfs(goal, puzzle; initdepth=1, limit=100, step=1)
     reset_timer!(to::TimerOutput)
     searchrange = initdepth:step:limit;
     for d in searchrange
             @timeit to "depth limited search" solnode = depthlimitedsearch(d, goal, puzzle)
 
         if !isnothing(solnode)
-            if prnt == "actions"
-                printactions(solnode)
-            else
-                printsolve(solnode)
-            end
+            printsolve(solnode)
             return solnode
         end
     end

@@ -1,3 +1,11 @@
+"""
+    directindex(direction)
+
+Convert a String `direction` into its relative
+index change.
+
+Return: CartesianIndex
+"""
 function directindex(direction) 
     dirdict = Dict(
         "UP" => (-1, 0), "DOWN" => (1, 0),
@@ -7,7 +15,13 @@ function directindex(direction)
     return CartesianIndex(dirdict[direction])
 end
 
-function swaptile!(b, t1, t2)
+
+"""
+    swaptile!(board, tile1, tile2)
+
+Swap the labels of `tile1` and `tile2` in-place.
+"""
+function swaptile!(board, tile1, tile2)
     """Swap the labels on the board for
     elements at index t1 and t2.
     """
@@ -16,9 +30,20 @@ function swaptile!(b, t1, t2)
     b[t2] = tmp;
 end
 
+
+"""
+    possibleactions(board)
+
+Construct an array of valid actions for `board`
+with respect to the tiles being moved (rather 
+than the blank space).
+
+Return: Array of actions
+"""
 function possibleactions(board)
-    """Return list of all possible actions for input board."""
     zeroindex = findfirst(iszero, board);
+    # Dict to change perspective of action
+    # to the tile being moved.
     invmovedict = Dict(
         "UP" => "DOWN", "DOWN" => "UP",
         "LEFT" => "RIGHT", "RIGHT" => "LEFT"
@@ -37,6 +62,15 @@ function possibleactions(board)
     return possacts
 end
 
+
+"""
+    result(action, board)
+
+Apply `action` to copy of `board` by swapping
+tiles. 
+
+Return: Copy of modified board.
+"""
 function result(action, board)
     """Applies an action to the board.
 
@@ -53,8 +87,15 @@ function result(action, board)
     return newboard
 end
 
+
+"""
+    expand(board)
+
+Calculate all possible next-move states.
+
+Return: Array of puzzle states.
+"""
 function expand(board)
-    """Return all possible next-step states."""
     states = [];
     possacts = possibleactions(board);
 

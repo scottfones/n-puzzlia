@@ -1,5 +1,9 @@
+"""
+    getpuzzle8(puznum::Integer)
+
+Return an 8-puzzle puzzle based on its id number.
+"""
 function getpuzzle8(puznum::Integer)
-    """Return 8-puzzle based on number id."""
     puzzleg = Matrix{Int}([0 1 2; 3 4 5; 6 7 8]);
     puzzle0 = Matrix{Int}([3 1 2; 7 0 5; 4 6 8]);
     puzzle1 = Matrix{Int}([7 2 4; 5 0 6; 8 3 1]);
@@ -18,9 +22,14 @@ function getpuzzle8(puznum::Integer)
 
     return copy(get(numdict, puznum, -1))
 end
-    
+
+
+"""
+    getpuzzle8(puzname::String)
+
+Return an 8-puzzle based on its name id.
+"""
 function getpuzzle8(puzname::String)
-    """Return 8-puzzle based on name id."""
     namedict = Dict(
         "goal" => -1, "puzzle-0" => 0, 
         "puzzle-1" => 1, "puzzle-2" => 2, 
@@ -32,6 +41,12 @@ function getpuzzle8(puzname::String)
     return getpuzzle8(numid)
 end
 
+
+"""
+    getpuzzle15(puznum::Integer)
+
+Return a 15-puzzle puzzle based on its id number.
+"""
 function getpuzzle15(puznum::Integer)
     """Return 15-puzzle based on number id."""
     puzzleg = Matrix{Int}([0 1 2 3; 4 5 6 7; 8 9 10 11; 12 13 14 15]);
@@ -43,21 +58,15 @@ function getpuzzle15(puznum::Integer)
     return copy(get(numdict, puznum, -1))
 end
 
+
+"""
+    getpuzzle15(puzname::String)
+
+Return a 15-puzzle based on its name id.
+"""
 function getpuzzle15(puzname::String)
-    """Return 15-puzzle based on name id."""
     namedict = Dict("goal" => -1, "puzzle-1" => 1, "puzzle-2" => 2);
 
     numid = get(namedict, puzname, -1);
     return getpuzzle15(numid)
-end
-
-function testpuzzle8sums()
-    """Test all predefined 8-puzzles for a sum of 36."""
-    allpuzzle8s = Array{Matrix{Int8}, 1}([
-        puzzle0, puzzle1, puzzle2, puzzle3,
-        puzzle4, puzzle5, puzzle6
-    ]);
-    for (i, puzzle) in enumerate(allpuzzle8s)
-        println("puzzle-$(i-1): sum(puzzle) == sum(1:8):  $(sum(puzzle) == sum(1:8))");
-    end
 end

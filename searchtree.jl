@@ -1,18 +1,37 @@
+"""
+    TreeNode(action, parent, pathcost, state)
+
+Node structure for search tree.
+"""
 struct TreeNode
-    """Node for search trees"""
     action::Union{Tuple, Nothing}
     parent::Union{TreeNode, Nothing}
     pathcost::Integer
     state::Matrix
 end
 
+
 import Base.==
+"""
+    ==(x, y)
+
+Define equality between Treenodes as 
+having equal states.
+"""
 function ==(x::TreeNode,y::TreeNode)
     x.state==y.state
 end
 
+
+"""
+    addnode(action, parent, state)
+
+Create a new TreeNode with pathcost of
+the parent plus 1.
+
+Return: TreeNode
+"""
 function addnode(action, parent, state)
-    """Create a new child node wrt the parent."""
     cost = parent.pathcost + 1;
     newnode = TreeNode(
         action, 
@@ -24,8 +43,17 @@ function addnode(action, parent, state)
     return newnode
 end
 
+
+"""
+    newtree(state)
+
+Create the initial TreeNode for a new search tree.
+The node's action and parent are set to `nothing`, 
+and the pathcost is set to zero.
+
+Return: TreeNode
+"""
 function newtree(state)
-    """Create initial node for new tree."""
     newnode = TreeNode(
         nothing,
         nothing,
@@ -36,12 +64,21 @@ function newtree(state)
     return newnode
 end
 
-function iscycle(node, pnum)
-    """Check pnum parents for identical state."""
+
+"""
+    iscycle(node, cynum)
+
+Determine whether the search tree has become a cycle
+by looking at the `cynum` parents of `node` for an 
+equal state.
+
+Returns: Boolean
+"""
+function iscycle(node, cynum)
     count = 0;
     prnt = node;
 
-    while (count < pnum) && !isnothing(prnt.parent)
+    while (count < cynum) && !isnothing(prnt.parent)
         count+=1;
         prnt = prnt.parent;
 
@@ -53,16 +90,14 @@ function iscycle(node, pnum)
     return false
 end
 
-function printactions(solvenode)
-    """Print actions from solution to initial state."""
-    while !isnothing(solvenode)
-        println("Step $(solvenode.pathcost): Action: $(solvenode.action)");
-        solvenode = solvenode.parent;
-    end
-end
 
+"""
+    printsolve(solvenode)
+
+Formatted print of a TreeNode and all parents
+to the origin.
+"""
 function printsolve(solvenode)
-    """Print actions and state from solution to initial state."""
     while !isnothing(solvenode)
         println("Step $(solvenode.pathcost):")
         println("\t$(solvenode.state[1,:])") 
