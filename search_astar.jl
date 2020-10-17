@@ -7,7 +7,7 @@ function heurmanhattan(goal, node)
     h = 0;
     for row in 1:m
         for col in 1:n
-            cordnode = findfirst(isequal(goal[row,col]), node.state);
+            cord = findfirst(isequal(goal[row,col]), node.state);
             hm = abs(cord[1] - row);
             hn = abs(cord[2] - col);
             h += hm + hn;
