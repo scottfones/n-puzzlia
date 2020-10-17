@@ -25,9 +25,9 @@ function swaptile!(board, tile1, tile2)
     """Swap the labels on the board for
     elements at index t1 and t2.
     """
-    tmp = b[t1];
-    b[t1] = b[t2];
-    b[t2] = tmp;
+    tmp = board[tile1];
+    board[tile1] = board[tile2];
+    board[tile2] = tmp;
 end
 
 
