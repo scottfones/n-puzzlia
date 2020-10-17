@@ -60,7 +60,7 @@ function heurmanhattanconflict(goal, node)
             colpen = 0
             for a in 1:(length(colord)-1)
                 for b in 2:length(colord)
-                    if roword[b] < colord[a]
+                    if colrd[b] < colord[a]
                         colpen += 2;
                     end
                 end
