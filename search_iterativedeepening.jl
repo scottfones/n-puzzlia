@@ -17,8 +17,6 @@ function depthlimitedsearch(depth, goal, puzzle)
 
     Returns solution or nothing.
     """
-    reset_timer!(to::TimerOutput)
-
     frontier = [newtree(puzzle)];
 
     while !isempty(frontier)
@@ -48,15 +46,16 @@ function iterativedfs(goal, puzzle; initdepth=1, limit=100, step=1, prnt="all")
 
     Optionally takes iteration and output options.
     """
+    reset_timer!(to::TimerOutput)
     searchrange = initdepth:step:limit;
     for d in searchrange
-        @timeit to "depth limited search" solnode = depthlimitedsearch(d, goal, puzzle)
+            @timeit to "depth limited search" solnode = depthlimitedsearch(d, goal, puzzle)
 
         if !isnothing(solnode)
             if prnt == "actions"
-                printactions(solnode[2])
+                printactions(solnode)
             else
-                printsolve(solnode[2])
+                printsolve(solnode)
             end
             return solnode
         end

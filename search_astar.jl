@@ -1,8 +1,7 @@
 using DataStructures;
 
-function heurmanhattan(goal, node)
-    g = node.pathcost;
-    m,n = size(node.state);
+function heurmanhattan(goal, state)
+    m,n = size(state);
 
     h = 0;
     for row in 1:m
@@ -10,25 +9,24 @@ function heurmanhattan(goal, node)
             if goal[row,col] == 0
                 continue;
             end
-            cord = findfirst(isequal(goal[row,col]), node.state);
+            cord = findfirst(isequal(goal[row,col]), state);
             hm = abs(cord[1] - row);
             hn = abs(cord[2] - col);
             h += hm + hn;
         end
     end
 
-    return g + h    
+    return h    
 end
 
-function heurmanhattanconflict(goal, node)
-    f = heurmanhattan(goal, node);
+function heurmanhattanconflict(goal, state)
+    h = heurmanhattan(goal, state);
 
-    s = node.state;
     sidelen = size(goal)[1];
     for i in 1:sidelen
 
         # Row Check
-        inrow = intersect(goal[i,:], s[i,:]);
+        inrow = intersect(goal[i,:], state[i,:]);
         if 0 in inrow
             setdiff!(inrow, [0]);
         end
@@ -36,11 +34,10 @@ function heurmanhattanconflict(goal, node)
         if length(inrow) > 1
             roword = [];
             for el in inrow
-                rn = findfirst(isequal(el), s)[2]
+                rn = findfirst(isequal(el), state)[2]
                 push!(roword, rn)
             end
-            # @show s
-            # @show roword
+
             rowpen = 0
             for a in 1:(length(roword)-1)
                 for b in 2:length(roword)
@@ -49,11 +46,11 @@ function heurmanhattanconflict(goal, node)
                     end
                 end
             end
-            f += rowpen;
+            h += rowpen;
         end
 
         # Column Check
-        incol = intersect(goal[:,i], s[:,i]);
+        incol = intersect(goal[:,i], state[:,i]);
         if 0 in incol
             setdiff!(incol, [0]);
         end
@@ -61,7 +58,7 @@ function heurmanhattanconflict(goal, node)
         if length(incol) > 1
             colord = [];
             for el in incol
-                rm = findfirst(isequal(el), s)[1]
+                rm = findfirst(isequal(el), state)[1]
                 push!(colord, rm)
             end
 
@@ -73,21 +70,30 @@ function heurmanhattanconflict(goal, node)
                     end
                 end
             end
-            f += colpen;
+            h += colpen;
         end           
     end
 
-    return f
+    return h
 end
 
-function heurmisplaced(goal, node)
-    g = node.pathcost;
+function heurmisplaced(goal, state)
+    m,n = size(state);
+    
+    h = 0
+    for j in 1:m
+        for i in 1:n
+            if goal[j,i] == 0
+                continue;
+            elseif goal[j,i] == state[j,i]
+                continue;
+            else
+                h += 1;
+            end
+        end
+    end
 
-    # Generate truth table and take sum for shared elements
-    shareels = sum(goal .== node.state);
-    h = length(node.state) - shareels;
-
-    return g+h
+    return h
 end
 
 function astarsearch(goal, heur, puzzle)
@@ -116,7 +122,7 @@ function astarsearch(goal, heur, puzzle)
             end
 
             @timeit to "create node" cnode = addnode(a, node, s);
-            @timeit to "heuristic score" score = heur(goal, cnode);
+            @timeit to "heuristic score" score = node.pathcost + heur(goal, cnode.state);
 
             if s == goal
                 printsolve(cnode)
