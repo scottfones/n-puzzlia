@@ -36,9 +36,15 @@ function heurmanhattanconflict(goal, node)
             end
             # @show s
             # @show roword
-            if !issorted(roword)
-                f += 2;
+            rowpen = 0
+            for a in 1:(length(roword)-1)
+                for b in 2:length(roword)
+                    if roword[b] < roword[a]
+                        rowpen += 2;
+                    end
+                end
             end
+            f += rowpen;
         end
 
         # Row Check
@@ -50,11 +56,17 @@ function heurmanhattanconflict(goal, node)
                 rm = findfirst(isequal(el), s)[1]
                 push!(colord, rm)
             end
-            
-            if !issorted(colord)
-                f += 2;
+
+            colpen = 0
+            for a in 1:(length(colord)-1)
+                for b in 2:length(colord)
+                    if roword[b] < colord[a]
+                        colpen += 2;
+                    end
+                end
             end
-        end
+            f += colpen;
+        end           
     end
 
     return f
